@@ -41,7 +41,6 @@ class Spider:
             Spider.update_files()
 
 #NOT ENTERING IF LOOP IN TRY. RESPONSE.GETHEADER DOES NOT == TEXT/HTML. MUST MAKE IT == TO THAT SOMEHOW?
-
     @staticmethod
     def gather_links(page_url):
         html_string = ''
