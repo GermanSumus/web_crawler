@@ -1,5 +1,7 @@
 from urllib.request import urlopen
+from urllib.request import Request
 from link_finder import LinkFinder
+from ssl import _create_unverified_context
 from general import *
 
 
@@ -40,13 +42,16 @@ class Spider:
             Spider.crawled.add(page_url)
             Spider.update_files()
 
-#NOT ENTERING IF LOOP IN TRY. RESPONSE.GETHEADER DOES NOT == TEXT/HTML. MUST MAKE IT == TO THAT SOMEHOW?
+# DOES NOT VERIFY THE SERVER TO WHICH IT CONNECTS TO SO NOT THE SAFEST METHOD
+# ALSO WHEN ATTEMPTING THE FOLLOWING IF METHOD UTF MAY BE utf Utf UtF etc. A FIX FOR ANOTHER DAY
     @staticmethod
     def gather_links(page_url):
         html_string = ''
         try:
-            response = urlopen(page_url)
-            if response.getheader('Content-Type') == 'text/html':
+            context = _create_unverified_context()
+            req = Request(url=page_url)
+            response = urlopen(req, context=context)
+            if response.getheader('Content-Type') == 'text/html; charset=UTF-8':
                 html_bytes = response.read()
                 html_string = html_bytes.decode("utf-8")
             finder = LinkFinder(Spider.base_url, page_url)
