@@ -27,7 +27,7 @@ def write_file(path, data):
 
 # add data onto an existing file
 def append_to_file(path, data):
-    with open(path, 'w') as file:
+    with open(path, 'a') as file:
         file.write(data + '\n')
 
 
